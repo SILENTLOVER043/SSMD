@@ -3,7 +3,7 @@ const config = require("../config"); // Make sure to import config
 
 cmd({
   pattern: "vv3",
-  alias: ["viewonce", 'retrive'],
+  alias: ["suk", 'retrive'],
   react: '🐳',
   desc: "Owner Only - retrieve quoted message back to user",
   category: "owner",
