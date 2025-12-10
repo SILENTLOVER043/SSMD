@@ -130,15 +130,13 @@ console.log("SESSION DOWNLOADED SUCCESSFULLY ✅")
   connectToWA()
   }
   } else if (connection === 'open') {
-  console.log('🧬 INSTALLING PLUGINS FILES 📂')
+  console.log('🧬 DARK-SILENCE-MD SUCCESSFULLY CONNECTED 🌸❤️')
   const path = require('path');
   fs.readdirSync("./plugins/").forEach((plugin) => {
   if (path.extname(plugin).toLowerCase() == ".js") {
   require("./plugins/" + plugin);
   }
   });
-  console.log('PLUGINS INSTALLED SUCCESSFULLY ✅')
-  console.log('DARK-SILENCE-MD PLUGINS TESTING ✅')
   conn.newsletterFollow("120363405251820771@newsletter")
     
   let up = `
