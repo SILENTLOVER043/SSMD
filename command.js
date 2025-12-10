@@ -37,7 +37,7 @@ contact me 923096287432 ♻️
 
 
 
-var commands = [];//Cmd req 
+var commands = [];//Cmd Handel function @ silent lover || © Copy right github.com
 
 function cmd(info, func) {
     var data = info;
