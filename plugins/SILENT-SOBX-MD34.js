@@ -88,7 +88,8 @@ END:VCARD`
 });
 
 // ping 2
-
+const { cmd } = require("../command");
+const { sleep } = require('../lib/functions');
 
 cmd({
   pattern: "speed",
@@ -98,14 +99,9 @@ cmd({
   category: 'main',
   use: ".ping2",
   filename: __filename
-}, async (conn, mek, m, {
-  from,
-  quoted,
-  sender,
-  reply
-}) => {
+}, async (conn, mek, m, { from, sender, isGroup, reply }) => {
   try {
-    const start = new Date().getTime();
+    const start = Date.now();
 
     // 🔹 Meta Verified Style (Fake vCard Contact)
     const lipx = {
@@ -128,32 +124,38 @@ END:VCARD`
       }
     };
 
-    // Start with counter
-    let loadingMsg = await conn.sendMessage(from, { text: "⚡ 𝐓𝐞𝐬𝐭𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝: 1%" }, { quoted: mek });
+    let loadingMsg;
 
-    // Counter 1 → 100 (very fast edit)
-    for (let i = 2; i <= 100; i++) {
-      await sleep(25); // super fast speed
-      await conn.sendMessage(from, {
-        edit: loadingMsg.key,
-        text: `⚡ 𝐓𝐞𝐬𝐭𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝: ${i}%`
-      }, { quoted: mek });
+    // ⚡ Inbox: animate counter 1 → 100
+    if (!isGroup) {
+      loadingMsg = await conn.sendMessage(from, { text: "⚡ 𝐓𝐞𝐬𝐭𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝: 1%" }, { quoted: mek });
+
+      for (let i = 2; i <= 100; i++) {
+        await sleep(15); // ultra fast
+        try {
+          await conn.sendMessage(from, {
+            edit: loadingMsg.key,
+            text: `⚡ 𝐓𝐞𝐬𝐭𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝: ${i}%`
+          });
+        } catch {
+          // fallback if edit fails
+          loadingMsg = await conn.sendMessage(from, { text: `⚡ 𝐓𝐞𝐬𝐭𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝: ${i}%` });
+        }
+      }
     }
 
-    // Calculate speed
-    const end = new Date().getTime();
-    const speed = (end - start);
+    // ⚡ Group: skip animation (direct result)
+    const end = Date.now();
+    const speed = end - start;
 
-    // Final Result
     const result = `╭───〈🚀 𝕊ℙ𝔼𝔼𝔻 𝕋𝔼𝕊𝕋 🚀〉───╮\n` +
                    `  ☑️ 𝕍𝔼ℝ𝕀𝔽𝕀𝔼𝔻 𝔹𝕐 𝕄𝔼𝕋𝔸\n` +
                    `  ⚡ 𝕊𝕡𝕖𝕖𝕕: *${speed} ms*\n` +
                    `  🌐 𝕊𝕥𝕒𝕥𝕦𝕤: 𝔸𝕔𝕥𝕚𝕧𝕖\n` +
                    `╰──────────────────╯`;
 
-    await sleep(300);
+    await sleep(50);
 
-    // 👇 ContextInfo + Meta Verified Blue Tick Style
     await conn.sendMessage(from, {
       text: result,
       contextInfo: {
@@ -166,10 +168,10 @@ END:VCARD`
           serverMessageId: 143
         }
       }
-    }, { quoted: lipx });
+    }, { quoted: !isGroup ? lipx : mek });
 
   } catch (err) {
-    console.error("Error in ping command:", err);
+    console.error("Error in speed command:", err);
     reply("❌ An error occurred: " + err.message);
   }
 });
