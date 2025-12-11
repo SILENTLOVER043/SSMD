@@ -18,7 +18,6 @@ contact me 923096287432 ♻️
 */
 
 
-
 const { cmd } = require("../command");
 const { fetchJson, sleep } = require("../lib/functions");
 
@@ -39,8 +38,8 @@ async (conn, mek, m, { from, q, reply }) => {
                 text: "*Example:* `.pair +923096287432`",
                 contextInfo: {
                     mentionedJid: [m.sender],
-                    isForwarded: true,
                     forwardingScore: 999,
+                    isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: "120363405251820771@newsletter",
                         newsletterName: "DARK-SILENCE-MD",
@@ -52,7 +51,6 @@ async (conn, mek, m, { from, q, reply }) => {
 
         const apiURL = "https://pair-dark-silence-md.onrender.com/code?number=" + q;
 
-        // Typing effect
         await conn.sendPresenceUpdate("composing", from);
         await sleep(600);
 
@@ -61,40 +59,28 @@ async (conn, mek, m, { from, q, reply }) => {
             data = await fetchJson(apiURL);
         } catch (err) {
             return conn.sendMessage(from, {
-                text: "❌ *API ERROR*\nThe server did not respond.\n\nPlease try again later.",
-                contextInfo: {
-                    mentionedJid: [m.sender], isForwarded: true
-                }
+                text: "❌ *API Error*\nServer response not received!",
+                contextInfo: { mentionedJid: [m.sender], isForwarded: true }
             }, { quoted: mek });
         }
 
         if (!data.code) {
             return conn.sendMessage(from, {
-                text: "❌ *Invalid Response*\nAPI did not return any code.",
-                contextInfo: {
-                    mentionedJid: [m.sender], isForwarded: true
-                }
+                text: "❌ *Invalid Response!* No code returned from API.",
+                contextInfo: { mentionedJid: [m.sender], isForwarded: true }
             }, { quoted: mek });
         }
 
-        const successText =
+        const msg =
 `🌙 *DARK-SILENCE-MD PAIR CODE GENERATED*
 
 🔢 *Your Pair Code:*  
 \`${data.code}\`
 
-_Use this code in WhatsApp Multi-Device to link your bot._
+✨ Use this code to link your WhatsApp Multi Device.`;
 
-✨ *DARK-SILENCE-MD Number paired successfully!*`;
-
-        // Final reply with context + buttons
         await conn.sendMessage(from, {
-            text: successText,
-            buttons: [
-                { buttonId: "help", buttonText: { displayText: "📘 HELP" }, type: 1 },
-                { buttonId: "menu", buttonText: { displayText: "⚙️ MENU" }, type: 1 }
-            ],
-            footer: "© DARK-SILENCE-MD",
+            text: msg,
             contextInfo: {
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
@@ -107,8 +93,8 @@ _Use this code in WhatsApp Multi-Device to link your bot._
             }
         }, { quoted: mek });
 
-    } catch (error) {
-        console.log("PAIR CMD ERROR:", error);
-        reply("⚠️ Something went wrong.\n\nError: " + error);
+    } catch (err) {
+        console.log("PAIR CMD ERROR:", err);
+        reply("⚠️ Something went wrong!\n" + err);
     }
 });
