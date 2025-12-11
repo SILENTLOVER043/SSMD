@@ -9,7 +9,7 @@ cmd({
   category: 'main',
   react: '⚡',
   filename: __filename
-}, async (conn, mek, m, { from, sender, reply }) => {
+}, async (conn, mek, m, { from, sender, isGroup, reply }) => {
   try {
     const startTime = Date.now();
 
@@ -34,40 +34,39 @@ END:VCARD`
       }
     };
 
-    // Loading progress bar animation
-    let frames = [
-      "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▱▱▱▱",
-      "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▰▱▱▱",
-      "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▰▰▱▱",
-      "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▰▰▰▱",
-      "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▰▰▰▰"
-    ];
-
-    // Send initial message
-    let loadingMsg = await conn.sendMessage(from, { text: frames[0] }, { quoted: mek });
-
-    // Edit messages fast (full speed)
-    for (let i = 1; i < frames.length; i++) {
-      await sleep(150); // faster speed
-      try {
-        await conn.sendMessage(from, { edit: loadingMsg.key, text: frames[i] });
-      } catch (e) {
-        // If edit fails (group), send new message
-        loadingMsg = await conn.sendMessage(from, { text: frames[i] });
-      }
-    }
-
     const endTime = Date.now();
-    const speed = (endTime - startTime) / 1000;
 
-    const result = `> *_۞ 𝔻𝔸ℝ𝕂-𝕊𝕀𝕃𝔼ℕℂ𝔼-𝕄𝐃 𝕊ℙ𝔼𝔼𝔻: ${speed.toFixed(2)} 𝕄𝕤_*\n\n` +
+    const result = `> *_۞ 𝔻𝔸ℝ𝕂-𝕊𝐈𝕃𝐄ℕ𝐂𝐄-𝕄𝐃 𝕊ℙ𝔼𝔼𝔻: ${((endTime - startTime)/1000).toFixed(2)} 𝕄𝕤_*\n\n` +
                    `╭───〈👑 𝔸𝕃𝕀𝕍𝔼 👑〉───╮\n` +
                    `   ☑️ 𝕍𝔼ℝ𝕀𝔽𝔼𝔻 𝔹𝕐 𝕄𝔼𝕋𝔸\n` +
                    `   🔰 𝔹𝕆𝕋 𝕊𝕋𝔸𝕋𝕌𝕊: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞𝐝\n` +
                    `   ⚡ ℝ𝔼𝕊ℙ𝕆ℕ𝕊𝔼: 𝐒𝐭𝐚𝐛𝐥𝐞𝐝\n` +
                    `╰────────────────╯`;
 
-    await sleep(200);
+    // ⚡ Inbox: show loading bar animation
+    if (!isGroup) {
+      let frames = [
+        "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▱▱▱▱",
+        "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▰▱▱▱",
+        "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▰▰▱▱",
+        "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▰▰▰▱",
+        "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▰▰▰▰"
+      ];
+
+      let loadingMsg = await conn.sendMessage(from, { text: frames[0] }, { quoted: mek });
+
+      for (let i = 1; i < frames.length; i++) {
+        await sleep(150);
+        try {
+          await conn.sendMessage(from, { edit: loadingMsg.key, text: frames[i] });
+        } catch {
+          loadingMsg = await conn.sendMessage(from, { text: frames[i] });
+        }
+      }
+    }
+
+    // ⚡ Send final result (both inbox and group)
+    await sleep(100);
     await conn.sendMessage(from, {
       text: result,
       contextInfo: {
@@ -80,7 +79,7 @@ END:VCARD`
           serverMessageId: 143
         }
       }
-    }, { quoted: lipx });
+    }, { quoted: !isGroup ? lipx : mek });
 
   } catch (err) {
     console.error("Error in ping command:", err);
