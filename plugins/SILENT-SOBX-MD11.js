@@ -20,8 +20,6 @@ contact me 923096287432 ♻️
 
 
 
-
-
 const { cmd, commands } = require('../command')
 const config = require("../config");
 const prefix = config.PREFIX;
@@ -109,10 +107,10 @@ END:VCARD`
       }
     }, { quoted: lipx });
 
-    // 🔹 Finally send Alive Voice Note (Fixed format + Meta Verified)
+    // 🔹 Send the audio file with context info (added at the end)
     await conn.sendMessage(from, {
       audio: { url: 'https://github.com/DARKSILENCE04/DARK-SILENCE-MD-DATABASE/raw/refs/heads/main/AUTO_VOICE/AUD-20250309-WA0019.m4a' },
-      mimetype: 'audio/ogg; codecs=opus',  // ✅ Fixed for WhatsApp update
+      mimetype: 'audio/mp4',
       ptt: false,
       contextInfo: { 
         mentionedJid: [m.sender],
@@ -120,11 +118,11 @@ END:VCARD`
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
           newsletterJid: '120363405251820771@newsletter',
-          newsletterName: 'SILENT-SOBX-MD',
+          newsletterName: 'DARK-SILENCE-MD',
           serverMessageId: 143
         }
       }
-    }, { quoted: lipx });
+    }, { quoted: mek });
 
   } catch (error) {
     console.error("Error in alive command:", error);
