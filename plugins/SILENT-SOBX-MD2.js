@@ -58,7 +58,7 @@ const vv = await conn.sendMessage(from, {
     forwardingScore: 999, 
     isForwarded: true, 
     forwardedNewsletterMessageInfo: { 
-      newsletterJid: '120363189714152560@newsletter', 
+      newsletterJid: '120363405251820771@newsletter', 
       newsletterName: "DARK-SILENCE-MD-MENU", 
       serverMessageId: 999 
     }, 
@@ -66,7 +66,7 @@ const vv = await conn.sendMessage(from, {
       title: 'DARK-SILENCE-MD', 
       body: `${pushname}`, 
       mediaType: 1,                                                  
-      sourceUrl: "whatsapp.com/channel/0029VaHO5B0G3R3cWkZN970s", 
+      sourceUrl: "https://whatsapp.com/channel/0029VbBW2rTI7BeDvlyTTO16", 
       thumbnailUrl: "https://telegra.ph/file/2a06381b260c3f096a612.jpg", 
       renderLargerThumbnail: true, 
       showAdAttribution: false 
@@ -121,7 +121,7 @@ await conn.sendMessage(from, { image: { url:`https://files.catbox.moe/8fy6up.jpg
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363189714152560@newsletter',
+          newsletterJid: '120363405251820771@newsletter',
           newsletterName: '𝑫𝑨𝑹𝑲-𝑺𝑰𝑳𝑬𝑵𝑪𝑬-𝑴𝑫',
           serverMessageId: 143
         }
@@ -158,7 +158,7 @@ await conn.sendMessage(from, { image: { url:config.ALIVE_IMG}, caption: owner01,
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363189714152560@newsletter',
+          newsletterJid: '120363405251820771@newsletter',
           newsletterName: '𝑫𝑨𝑹𝑲-𝑺𝑰𝑳𝑬𝑵𝑪𝑬-𝑴𝑫',
           serverMessageId: 143
         }
@@ -198,7 +198,7 @@ await conn.sendMessage(from, { image: { url:config.ALIVE_IMG}, caption: owner1,
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363189714152560@newsletter',
+          newsletterJid: '120363405251820771@newsletter',
           newsletterName: '𝑫𝑨𝑹𝑲-𝑺𝑰𝑳𝑬𝑵𝑪𝑬-𝑴𝑫',
           serverMessageId: 143
         }
@@ -249,7 +249,7 @@ await conn.sendMessage(from, { image: { url:config.ALIVE_IMG}, caption: owner2,
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363189714152560@newsletter',
+          newsletterJid: '120363405251820771@newsletter',
           newsletterName: '𝑫𝑨𝑹𝑲-𝑺𝑰𝑳𝑬𝑵𝑪𝑬-𝑴𝑫',
           serverMessageId: 143
         }
@@ -284,7 +284,7 @@ await conn.sendMessage(from, { image: { url:config.ALIVE_IMG}, caption: owner3,
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363189714152560@newsletter',
+          newsletterJid: '120363405251820771@newsletter',
           newsletterName: '𝑫𝑨𝑹𝑲-𝑺𝑰𝑳𝑬𝑵𝑪𝑬-𝑴𝑫',
           serverMessageId: 143
         }
@@ -316,7 +316,7 @@ await conn.sendMessage(from, { image: { url:config.ALIVE_IMG}, caption: owner4,
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363189714152560@newsletter',
+          newsletterJid: '120363405251820771@newsletter',
           newsletterName: '𝑫𝑨𝑹𝑲-𝑺𝑰𝑳𝑬𝑵𝑪𝑬-𝑴𝑫',
           serverMessageId: 143
         }
@@ -350,7 +350,7 @@ await conn.sendMessage(from, { image: { url:config.ALIVE_IMG}, caption: owner5,
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363189714152560@newsletter',
+          newsletterJid: '120363405251820771@newsletter',
           newsletterName: '𝑫𝑨𝑹𝑲-𝑺𝑰𝑳𝑬𝑵𝑪𝑬-𝑴𝑫',
           serverMessageId: 143
         }
@@ -376,7 +376,7 @@ await conn.sendMessage(from, { image: { url:config.ALIVE_IMG}, caption: owner6,
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363189714152560@newsletter',
+          newsletterJid: '120363405251820771@newsletter',
           newsletterName: '𝑫𝑨𝑹𝑲-𝑺𝑰𝑳𝑬𝑵𝑪𝑬-𝑴𝑫',
           serverMessageId: 143
         }
@@ -403,7 +403,7 @@ await conn.sendMessage(from, { image: { url:config.ALIVE_IMG}, caption: owner7,
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363189714152560@newsletter',
+          newsletterJid: '120363405251820771@newsletter',
           newsletterName: '𝑫𝑨𝑹𝑲-𝑺𝑰𝑳𝑬𝑵𝑪𝑬-𝑴𝑫',
           serverMessageId: 143
         }
@@ -442,7 +442,7 @@ await conn.sendMessage(from, { image: { url:config.ALIVE_IMG}, caption: owner8,
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363189714152560@newsletter',
+          newsletterJid: '120363405251820771@newsletter',
           newsletterName: '𝑫𝑨𝑹𝑲-𝑺𝑰𝑳𝑬𝑵𝑪𝑬-𝑴𝑫',
           serverMessageId: 143
         }
