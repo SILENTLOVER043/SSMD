@@ -71,7 +71,7 @@ cmd({
 
   // Reply with CURRENT MODE in DATABASE UPDATE line
   await reply(
-    `*_DATABASE UPDATE — YOUR CURRENT MODE IS:* ${config.MODE.toUpperCase()}`
+    `*DATABASE UPDATE — YOUR CURRENT MODE IS:* ${config.MODE.toUpperCase()} ✅`
   );
 
   // Sleep optional
