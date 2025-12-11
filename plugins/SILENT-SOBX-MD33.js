@@ -39,26 +39,21 @@ async (conn, mek, m, { from, q, reply }) => {
             data = await fetchJson(apiURL);
         } catch (err) {
             return conn.sendMessage(from, {
-                text: "❌ *API Error*\nServer response not received!",
+                text: "❌ API Error - Server did not respond!",
                 contextInfo: { mentionedJid: [m.sender], isForwarded: true }
             }, { quoted: mek });
         }
 
         if (!data.code) {
             return conn.sendMessage(from, {
-                text: "❌ *Invalid Response!* No code returned from API.",
+                text: "❌ Invalid Response! No code returned from API.",
                 contextInfo: { mentionedJid: [m.sender], isForwarded: true }
             }, { quoted: mek });
         }
 
-        // First message with fancy text
-        const infoMsg =
-`🌙 *DARK-SILENCE-MD PAIR CODE GENERATED*
-
-YOUR CODE IS SENDING BELOW ❤️👇`;
-
+        // First fancy message
         await conn.sendMessage(from, {
-            text: infoMsg,
+            text: `🌙 *DARK-SILENCE-MD PAIR CODE GENERATED*\n\nYOUR CODE IS SENDING BELOW ❤️👇`,
             contextInfo: {
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
@@ -71,10 +66,20 @@ YOUR CODE IS SENDING BELOW ❤️👇`;
             }
         }, { quoted: mek });
 
-        // Last message: ONLY RAW PAIR CODE
+        // Second message: ONLY the code with contextInfo
         await conn.sendMessage(from, {
-            text: data.code
-        });
+            text: data.code,
+            contextInfo: {
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: "120363405251820771@newsletter",
+                    newsletterName: "DARK-SILENCE-MD",
+                    serverMessageId: 143
+                }
+            }
+        }, { quoted: mek });
 
     } catch (err) {
         console.log("PAIR CMD ERROR:", err);
