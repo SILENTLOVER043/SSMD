@@ -88,8 +88,6 @@ END:VCARD`
 });
 
 // ping 2
-const { cmd } = require("../command");
-const { sleep } = require('../lib/functions');
 
 cmd({
   pattern: "speed",
