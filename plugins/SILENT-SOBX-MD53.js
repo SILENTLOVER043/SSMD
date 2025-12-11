@@ -40,9 +40,8 @@ cmd({
   saveConfig();
 
   await reply(`*Prefix changed to:* ${args[0]}`);
-  await reply("*_DATABASE UPDATE — RESTARTING...🚀_*");
-  await sleep(1500);
-  exec("pm2 restart all");
+  await reply("*_DATABASE UPDATE — UPDATED — NO RESTART REQUIRED...🚀_*");
+  // exec removed — no restart needed
 });
 
 // ================== BOT MODE ==================
@@ -63,9 +62,9 @@ cmd({
   saveConfig();
 
   await reply(`*_BOT MODE SET TO ${mode.toUpperCase()} ✅_*`);
-  await reply("*_DATABASE UPDATE — RESTARTING...🚀_*");
+  await reply("*_DATABASE UPDATE — UPDATED — NO RESTART REQUIRED...🚀_*");
   await sleep(1500);
-  exec("pm2 restart all");
+  // exec removed — no restart needed
 });
 
 // ================== TOGGLE SETTINGS ==================
