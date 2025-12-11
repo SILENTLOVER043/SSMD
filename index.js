@@ -218,26 +218,11 @@ conn.sendMessage(conn.user.id,{
     if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.AUTO_READ_STATUS === "true"){
       await conn.readMessages([mek.key])
     }
-// Auto Status Reply
-if (
-  config.AUTO_REPLY_STATUS === "true" &&
-  mek.key &&
-  mek.key.remoteJid === "status@broadcast" &&
-  mek.message  // make sure message exists
-) {
-
-  try {
-    const user = mek.key.participant;
-    const replyText = `${config.STATUS_REPLY}`;  // <-- Jaan, only this!
-
-    await conn.sendMessage(
-      user,
-      { text: replyText }
-    );
-
-  } catch (e) {
-    console.log("Status Reply Error:", e);
-  }
+// Status Reply Function
+if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.AUTO_REPLY_STATUS === "true") {
+  const user = mek.key.participant;
+  const text = `${config.STATUS_REPLY}`;
+ return await conn.sendMessage(user, { text: text }, { quoted: mek });
 }
   // status react function 
 if (mek.key && mek.key.remoteJid === 'status@broadcast' && config.STATUS_REACT === "true"){
