@@ -37,35 +37,15 @@ cmd({
   filename: __filename
 }, async (conn, mek, m, { args, isOwner, reply }) => {
 
-  if (!isOwner)
-    return reply("📛 Only the owner can use this command!");
+  if (!isOwner) return reply("📛 Only the owner can use this command!");
+  if (!args[0]) return reply("❌ Please provide a new prefix.");
 
-  if (!args[0])
-    return reply("❌ Please provide a new prefix.");
+  config.PREFIX = args[0];
+  prefix = args[0]; // 💖 runtime prefix update
+  saveConfig();
 
-  const newPrefix = args[0];
-
-  // Update in runtime
-  config.PREFIX = newPrefix;
-  global.prefix = newPrefix;
-  global.PREFIX = newPrefix;
-
-  // ===============================
-  // REAL FIX: WRITE DIRECT TO FILE
-  // ===============================
-  try {
-    let currentConfig = JSON.parse(fs.readFileSync(configPath, "utf8"));
-    currentConfig.PREFIX = newPrefix;
-    fs.writeFileSync(configPath, JSON.stringify(currentConfig, null, 2));
-  } catch (e) {
-    console.log("PREFIX SAVE ERROR:", e);
-  }
-
-  await reply(`*PREFIX SUCCESSFULLY UPDATED TO:* ${newPrefix}`);
-
-  await reply(
-    `*_DATABASE UPDATE — UPDATED — NO RESTART REQUIRED...🚀_*\n\n*YOUR CURRENT PREFIX IS:* ${newPrefix}`
-  );
+  await reply(`*Prefix changed to:* ${args[0]}`);
+  await reply("*_DATABASE UPDATE — UPDATED — NO RESTART REQUIRED...🚀_*");
 });
 
 // ================== BOT MODE ==================
