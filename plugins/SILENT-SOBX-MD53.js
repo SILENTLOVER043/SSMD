@@ -25,6 +25,7 @@ function saveConfig() {
 }
 
 // ================== SET PREFIX ==================
+// ================== SET PREFIX ==================
 cmd({
   pattern: "setprefix",
   alias: ["prefix"],
@@ -33,15 +34,27 @@ cmd({
   filename: __filename
 }, async (conn, mek, m, { args, isOwner, reply }) => {
 
-  if (!isOwner) return reply("📛 Only the owner can use this command!");
-  if (!args[0]) return reply("❌ Please provide a new prefix.");
+  if (!isOwner)
+    return reply("📛 Only the owner can use this command!");
 
-  config.PREFIX = args[0];
+  if (!args[0])
+    return reply("❌ Please provide a new prefix.");
+
+  const newPrefix = args[0];
+
+  // Update prefix in config file
+  config.PREFIX = newPrefix;
   saveConfig();
 
-  await reply(`*Prefix changed to:* ${args[0]}`);
-  await reply("*_DATABASE UPDATE — UPDATED — NO RESTART REQUIRED...🚀_*");
-  // exec removed — no restart needed
+  // Update prefix in runtime (MOST IMPORTANT FIX)
+  global.prefix = newPrefix;
+  global.PREFIX = newPrefix;
+
+  await reply(`*PREFIX SUCCESSFULLY UPDATED TO:* ${newPrefix}`);
+  
+  await reply(
+    `*_DATABASE UPDATE — UPDATED — NO RESTART REQUIRED...🚀_*\n\n*YOUR CURRENT PREFIX IS:* ${newPrefix}`
+  );
 });
 
 // ================== BOT MODE ==================
