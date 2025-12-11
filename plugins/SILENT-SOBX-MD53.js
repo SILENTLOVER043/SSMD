@@ -26,6 +26,9 @@ function saveConfig() {
 
 // ================== SET PREFIX ==================
 // ================== SET PREFIX ==================
+const configPath = path.join(__dirname, "../config.json");
+
+// ================== SET PREFIX ==================
 cmd({
   pattern: "setprefix",
   alias: ["prefix"],
@@ -42,16 +45,24 @@ cmd({
 
   const newPrefix = args[0];
 
-  // Update prefix in config file
+  // Update in runtime
   config.PREFIX = newPrefix;
-  saveConfig();
-
-  // Update prefix in runtime (MOST IMPORTANT FIX)
   global.prefix = newPrefix;
   global.PREFIX = newPrefix;
 
+  // ===============================
+  // REAL FIX: WRITE DIRECT TO FILE
+  // ===============================
+  try {
+    let currentConfig = JSON.parse(fs.readFileSync(configPath, "utf8"));
+    currentConfig.PREFIX = newPrefix;
+    fs.writeFileSync(configPath, JSON.stringify(currentConfig, null, 2));
+  } catch (e) {
+    console.log("PREFIX SAVE ERROR:", e);
+  }
+
   await reply(`*PREFIX SUCCESSFULLY UPDATED TO:* ${newPrefix}`);
-  
+
   await reply(
     `*_DATABASE UPDATE — UPDATED — NO RESTART REQUIRED...🚀_*\n\n*YOUR CURRENT PREFIX IS:* ${newPrefix}`
   );
