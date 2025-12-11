@@ -1,10 +1,5 @@
-const {
-  cmd,
-  commands
-} = require("../command");
-const {
-  sleep
-} = require('../lib/functions');
+const { cmd } = require("../command");
+const { sleep } = require('../lib/functions');
 
 cmd({
   pattern: "ping",
@@ -14,9 +9,9 @@ cmd({
   category: 'main',
   react: '⚡',
   filename: __filename
-}, async (conn, mek, m, { from, quoted, sender, reply }) => {
+}, async (conn, mek, m, { from, sender, reply }) => {
   try {
-    const startTime = new Date().getTime();
+    const startTime = Date.now();
 
     // 🔹 Meta Verified Style (Fake vCard Contact)
     const lipx = {
@@ -28,7 +23,7 @@ cmd({
       },
       message: {
         contactMessage: {
-          displayName: '© 𝐃𝐀𝐑𝐊-𝐒𝐈𝐋𝐄𝐍𝐂𝐄-𝐌𝐃 ☑️', // Blue Tick Added
+          displayName: '© 𝐃𝐀𝐑𝐊-𝐒𝐈𝐋𝐄𝐍𝐂𝐄-𝐌𝐃 ☑️',
           vcard: `BEGIN:VCARD
 VERSION:3.0
 N:Alip;;;;
@@ -48,24 +43,31 @@ END:VCARD`
       "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐒𝐩𝐞𝐞𝐝 ▰▰▰▰"
     ];
 
+    // Send initial message
     let loadingMsg = await conn.sendMessage(from, { text: frames[0] }, { quoted: mek });
 
+    // Edit messages fast (full speed)
     for (let i = 1; i < frames.length; i++) {
-      await sleep(400); // ⚡ fast speed
-      await conn.sendMessage(from, { edit: loadingMsg.key, text: frames[i] }, { quoted: mek });
+      await sleep(150); // faster speed
+      try {
+        await conn.sendMessage(from, { edit: loadingMsg.key, text: frames[i] });
+      } catch (e) {
+        // If edit fails (group), send new message
+        loadingMsg = await conn.sendMessage(from, { text: frames[i] });
+      }
     }
 
-    const endTime = new Date().getTime();
+    const endTime = Date.now();
     const speed = (endTime - startTime) / 1000;
 
-    const result = `> *_۞ 𝔻𝔸ℝ𝕂-𝕊𝕀𝕃𝔼ℕℂ𝔼-𝕄𝔻 𝕊ℙ𝔼𝔼𝔻: ${speed.toFixed(2)} 𝕄𝕤_*\n\n` +
+    const result = `> *_۞ 𝔻𝔸ℝ𝕂-𝕊𝕀𝕃𝔼ℕℂ𝔼-𝕄𝐃 𝕊ℙ𝔼𝔼𝔻: ${speed.toFixed(2)} 𝕄𝕤_*\n\n` +
                    `╭───〈👑 𝔸𝕃𝕀𝕍𝔼 👑〉───╮\n` +
                    `   ☑️ 𝕍𝔼ℝ𝕀𝔽𝔼𝔻 𝔹𝕐 𝕄𝔼𝕋𝔸\n` +
                    `   🔰 𝔹𝕆𝕋 𝕊𝕋𝔸𝕋𝕌𝕊: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞𝐝\n` +
                    `   ⚡ ℝ𝔼𝕊ℙ𝕆ℕ𝕊𝔼: 𝐒𝐭𝐚𝐛𝐥𝐞𝐝\n` +
                    `╰────────────────╯`;
 
-    await sleep(500);
+    await sleep(200);
     await conn.sendMessage(from, {
       text: result,
       contextInfo: {
@@ -73,12 +75,12 @@ END:VCARD`
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: "120363189714152560@newsletter",
+          newsletterJid: "120363405251820771@newsletter",
           newsletterName: "DARK-SILENCE-MD",
           serverMessageId: 143
         }
       }
-    }, { quoted: lipx }); // 👈 Meta Verified + Blue Tick Style
+    }, { quoted: lipx });
 
   } catch (err) {
     console.error("Error in ping command:", err);
@@ -160,7 +162,7 @@ END:VCARD`
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
-          newsletterJid: "120363189714152560@newsletter",
+          newsletterJid: "120363405251820771@newsletter",
           newsletterName: "DARK-SILENCE-MD",
           serverMessageId: 143
         }
