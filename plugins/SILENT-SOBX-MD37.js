@@ -58,15 +58,58 @@ cmd({
 },
 async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
 try{
-if (!isOwner) return reply("*_You're not bot owner 🪄._*");
-const {exec} = require("child_process")
-reply("*_DARK-SILENCE-MD RESTARTING...🚀_*")
-await sleep(1500)
-exec("pm2 restart all")
-reply("*_DARK-SILENCE-MD SUCCESSFULLY RESTART...✨_*")
-}catch(e){
-console.log(e)
-reply(`${e}`)
+
+    if (!isOwner) return conn.sendMessage(from, {
+        text: "*_You're not bot owner 🪄._*",
+        contextInfo: {
+            mentionedJid: [m.sender],
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363405251820771@newsletter',
+                newsletterName: 'DARK-SILENCE-MD',
+                serverMessageId: 143
+            }
+        }
+    }, { quoted: mek });
+
+    const { exec } = require("child_process");
+
+    await conn.sendMessage(from, {
+        text: "*_DARK-SILENCE-MD RESTARTING...🚀_*",
+        contextInfo: {
+            mentionedJid: [m.sender],
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363405251820771@newsletter',
+                newsletterName: 'DARK-SILENCE-MD',
+                serverMessageId: 143
+            }
+        }
+    }, { quoted: mek });
+
+    await sleep(1500);
+
+    exec("pm2 restart all");
+
+    await conn.sendMessage(from, {
+        text: "*_DARK-SILENCE-MD SUCCESSFULLY RESTART...✨_*",
+        contextInfo: {
+            mentionedJid: [m.sender],
+            forwardingScore: 999,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363405251820771@newsletter',
+                newsletterName: 'DARK-SILENCE-MD',
+                serverMessageId: 143
+            }
+        }
+    }, { quoted: mek });
+
+} catch (e) {
+    console.log(e);
+    reply(`${e}`);
 }
 });
 
@@ -160,7 +203,7 @@ mentionedJid: [m.sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363189714152560@newsletter',
+                    newsletterJid: '120363405251820771@newsletter',
                     newsletterName: '𝘿𝘼𝙍𝙆-𝙎𝙄𝙇𝙀𝙉𝘾𝙀-𝙈𝘿',
                     serverMessageId: 143
                 }
@@ -360,7 +403,7 @@ async (conn, mek, m, { from, reply }) => {
         await conn.sendMessage(from, {
             audio: { url: 'https://github.com/DARKSILENCE04/DARK-SILENCE-MD-DATABASE/raw/refs/heads/main/AUTO_VOICE/AUD-20250309-WA0019.m4a' },
             mimetype: 'audio/mp4',
-            ptt: true,
+            ptt: false,
             contextInfo: { 
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
