@@ -395,7 +395,7 @@ await conn.sendMessage(from,{image:{url:config.ALIVE_IMG},caption:madeMenu,
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363189714152560@newsletter',
+                    newsletterJid: '120363405251820771@newsletter',
                     newsletterName: 'DARK-SILENCE-MD',
                     serverMessageId: 143
                 }
@@ -406,13 +406,13 @@ await conn.sendMessage(from,{image:{url:config.ALIVE_IMG},caption:madeMenu,
         await conn.sendMessage(from, {
             audio: { url: 'https://github.com/DARKSILENCE04/DARK-SILENCE-MD-DATABASE/raw/refs/heads/main/AUTO_VOICE/AUD-20250309-WA0019.m4a' },
             mimetype: 'audio/mp4',
-            ptt: true,
+            ptt: false,
             contextInfo: { 
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363189714152560@newsletter',
+                    newsletterJid: '120363405251820771@newsletter',
                     newsletterName: 'DARK-SILENCE-MD',
                     serverMessageId: 143
                 }
