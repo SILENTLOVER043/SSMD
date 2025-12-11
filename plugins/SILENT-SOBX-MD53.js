@@ -52,19 +52,30 @@ cmd({
   filename: __filename
 }, async (conn, mek, m, { args, isOwner, reply }) => {
 
-  if (!isOwner) return reply("📛 Only the owner can use this command!");
-  if (!args[0]) return reply(`📌 Current mode: *${config.MODE}*\nUsage: .mode private OR .mode public`);
+  if (!isOwner)
+    return reply("📛 Only the owner can use this command!");
+
+  // Show current mode if no argument
+  if (!args[0])
+    return reply(`📌 Current Mode: *${config.MODE.toUpperCase()}*\nUsage: .mode private OR .mode public`);
 
   const mode = args[0].toLowerCase();
-  if (!["private", "public"].includes(mode)) return reply("❌ Invalid mode.");
+  if (!["private", "public"].includes(mode))
+    return reply("❌ Invalid mode. Use: private/public");
 
+  // Apply change
   config.MODE = mode;
   saveConfig();
 
   await reply(`*_BOT MODE SET TO ${mode.toUpperCase()} ✅_*`);
-  await reply("*_DATABASE UPDATE — UPDATED — NO RESTART REQUIRED...🚀_*");
-  await sleep(1500);
-  // exec removed — no restart needed
+
+  // Reply with CURRENT MODE in DATABASE UPDATE line
+  await reply(
+    `*_DATABASE UPDATE — YOUR CURRENT MODE IS:* ${config.MODE.toUpperCase()}`
+  );
+
+  // Sleep optional
+  // await sleep(1500);
 });
 
 // ================== TOGGLE SETTINGS ==================
