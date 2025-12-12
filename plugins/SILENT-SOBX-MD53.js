@@ -25,24 +25,34 @@ function saveConfig() {
 }
 
 // ================== SET PREFIX ==================
-// ================== SET PREFIX ==================
 cmd({
-    pattern: "setprefix",
-    alias: ["prefix"],
-    react: "🔧",
-    desc: "Change the bot's command prefix.",
-    category: "settings",
-    filename: __filename,
-}, async (conn, mek, m, { from, args, isCreator, reply }) => {
-    if (!isCreator) return reply("*📛 Only the owner can use this command!*");
+  pattern: "setprefix",
+  alias: ["prefix"],
+  desc: "Change bot prefix.",
+  category: "settings",
+  filename: __filename
+}, async (conn, mek, m, { args, isOwner, reply }) => {
 
-    const newPrefix = args[0]; // Get the new prefix from the command arguments
-    if (!newPrefix) return reply("❌ Please provide a new prefix. Example: `.setprefix !`");
+  if (!isOwner)
+    return reply("📛 Only the owner can use this command!");
 
-    // Update the prefix in memory
-    config.PREFIX = newPrefix;
+  // Show current prefix if no argument
+  if (!args[0])
+    return reply(`📌 Current Prefix: *${config.PREFIX}*\nUsage: .setprefix <new prefix>`);
 
-    return reply(`✅ PREFIX SUCCESSFULLY UPDATE IN DATABASE YOUR CURRENT PREFIX *${newPrefix}*`);
+  const newPrefix = args[0];
+
+  // Apply change
+  config.PREFIX = newPrefix;
+  saveConfig(); // VERY IMPORTANT
+
+  await reply(`*_PREFIX UPDATED TO:* ${newPrefix} ✅_*`);
+
+  // Reply with CURRENT prefix in update message
+  await reply(
+    `*DATABASE UPDATE — YOUR CURRENT PREFIX IS:* ${config.PREFIX} ✅`
+  );
+
 });
 
 // ================== BOT MODE ==================
