@@ -107,7 +107,7 @@ const toggleSettings = [
   { pattern: "auto_block", key: "AUTO_BLOCK" },
   { pattern: "bad_number_blocker", key: "BAD_NUMBER_BLOCKER" },
   { pattern: "auto_reply_status", key: "AUTO_REPLY_STATUS" },
-  { pattern: "anti-link", key: "ANTI_LINK" }
+  { pattern: "anti_link", key: "ANTI_LINK" }
 ];
 
 toggleSettings.forEach(item => {
