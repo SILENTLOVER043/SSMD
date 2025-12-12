@@ -133,7 +133,7 @@ toggleSettings.forEach(item => {
 
 // ================== ANTILINK ==================
 cmd({
-  pattern: "antilinkwarn",
+  pattern: "antilink",
   desc: "Set Antilink action",
   category: "group",
   filename: __filename
@@ -178,7 +178,7 @@ cmd({ on: "body" }, async (conn, mek, m, { from, body, isGroup, sender, isBotAdm
 
 // ================== ANTIBOT ==================
 cmd({
-  pattern: "anti-bot",
+  pattern: "antibot",
   desc: "Set antibot action",
   category: "group",
   filename: __filename
