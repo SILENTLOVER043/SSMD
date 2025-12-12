@@ -27,34 +27,22 @@ function saveConfig() {
 // ================== SET PREFIX ==================
 // ================== SET PREFIX ==================
 cmd({
-  pattern: "setprefix",
-  alias: ["prefix"],
-  desc: "Change bot prefix.",
-  category: "settings",
-  filename: __filename
-}, async (conn, mek, m, { args, isOwner, reply }) => {
+    pattern: "setprefix",
+    alias: ["prefix"],
+    react: "🔧",
+    desc: "Change the bot's command prefix.",
+    category: "settings",
+    filename: __filename,
+}, async (conn, mek, m, { from, args, isCreator, reply }) => {
+    if (!isCreator) return reply("*📛 Only the owner can use this command!*");
 
-  if (!isOwner)
-    return reply("📛 Only the owner can use this command!");
+    const newPrefix = args[0]; // Get the new prefix from the command arguments
+    if (!newPrefix) return reply("❌ Please provide a new prefix. Example: `.setprefix !`");
 
-  if (!args[0])
-    return reply("❌ Please provide a new prefix.");
+    // Update the prefix in memory
+    config.PREFIX = newPrefix;
 
-  const newPrefix = args[0];
-
-  // Update prefix in config file
-  config.PREFIX = newPrefix;
-  saveConfig();
-
-  // Update prefix in runtime (MOST IMPORTANT FIX)
-  global.prefix = newPrefix;
-  global.PREFIX = newPrefix;
-
-  await reply(`*PREFIX SUCCESSFULLY UPDATED TO:* ${newPrefix}`);
-  
-  await reply(
-    `*_DATABASE UPDATE — UPDATED — NO RESTART REQUIRED...🚀_*\n\n*YOUR CURRENT PREFIX IS:* ${newPrefix}`
-  );
+    return reply(`✅ PREFIX SUCCESSFULLY UPDATE IN DATABASE YOUR CURRENT PREFIX *${newPrefix}*`);
 });
 
 // ================== BOT MODE ==================
