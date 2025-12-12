@@ -1,66 +1,50 @@
-const { cmd } = require("../command");
-const config = require("../config"); // Make sure to import config
+const { cmd } = require('../command');
+const yts = require('yt-search');
+const { getBuffer } = require('../lib/functions');
 
 cmd({
-  pattern: "vv3",
-  alias: ["suk", 'retrive'],
-  react: '🐳',
-  desc: "Owner Only - retrieve quoted message back to user",
-  category: "owner",
+  pattern: "find",
+  desc: "Search song/video/short by name or link with preview",
+  category: "search",
   filename: __filename
-}, async (client, message, match, { from, isOwner }) => {
+}, async (conn, mek, m, { args, reply }) => {
+
+  if (!args[0]) return reply("❌ Please provide song/video name or link\nUsage: .find <name or link>");
+
+  const query = args.join(" ");
+
   try {
-    if (!isOwner) {
-      return await client.sendMessage(from, {
-        text: "*📛 This is an owner command.*"
-      }, { quoted: message });
+    let result;
+
+    // Check if it's a YouTube link
+    if (query.match(/(youtu\.be|youtube\.com)/)) {
+      const id = query.includes("v=") ? query.split("v=")[1] : query.split("/").pop();
+      const res = await yts({ videoId: id });
+      result = res;
+    } else {
+      // Search by name
+      const searchResult = await yts(query);
+      result = searchResult.videos[0]; // take first video
     }
 
-    if (!match.quoted) {
-      return await client.sendMessage(from, {
-        text: "*🍁 Please reply to a view once message!*"
-      }, { quoted: message });
-    }
+    if (!result) return reply("❌ No results found");
 
-    const buffer = await match.quoted.download();
-    const mtype = match.quoted.mtype;
-    const originalCaption = match.quoted.text || '';
-    const options = { quoted: message };
+    // Determine type: video/short
+    const type = result.type === 'video' && result.videoId.length <= 11 ? 'Song/Video' : result.type;
 
-    let messageContent = {};
-    switch (mtype) {
-      case "imageMessage":
-        messageContent = {
-          image: buffer,
-          caption: originalCaption ? `${originalCaption}\n\n> ${config.DESCRIPTION}` : `> ${config.DESCRIPTION}`,
-          mimetype: match.quoted.mimetype || "image/jpeg"
-        };
-        break;
-      case "videoMessage":
-        messageContent = {
-          video: buffer,
-          caption: originalCaption ? `${originalCaption}\n\n> ${config.DESCRIPTION}` : `> ${config.DESCRIPTION}`,
-          mimetype: match.quoted.mimetype || "video/mp4"
-        };
-        break;
-      case "audioMessage":
-        messageContent = {
-          audio: buffer,
-          mimetype: "audio/mp4",
-          ptt: match.quoted.ptt || false
-        };
-        break;
-      default:
-        return await client.sendMessage(from, {
-          text: "❌ Only image, video, and audio messages are supported"
-        }, { quoted: message });
-    }
+    let msg = `🎵 *FOUND:* ${result.title}\n`;
+    msg += `📌 *Author:* ${result.author.name}\n`;
+    msg += `⌚ *Duration:* ${result.timestamp}\n`;
+    msg += `🎬 *Type:* ${type}\n`;
+    msg += `🔗 *Link:* ${result.url}`;
 
-    await client.sendMessage(from, messageContent, options);
-  } catch (error) {
-    console.error("vv Error:", error);
-    await client.sendMessage(from, {
-      text: "❌ Error fetching vv message:\n" + error.message
-    }, { quoted: message });
+    // Get thumbnail buffer
+    const thumb = await getBuffer(result.thumbnail);
+
+    await conn.sendMessage(m.chat, { image: thumb, caption: msg });
+
+  } catch (e) {
+    console.log(e);
+    reply("❌ Error while searching. Try again later.");
   }
 });
