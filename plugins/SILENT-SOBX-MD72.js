@@ -1,15 +1,16 @@
 const { cmd } = require('../command');
 const yts = require('yt-search');
+const ytdl = require('ytdl-core');
 const { getBuffer } = require('../lib/functions');
 
 cmd({
   pattern: "find",
-  desc: "Search song/video/short by name or link with preview",
+  desc: "Search song/video/short by name or link and send audio",
   category: "search",
   filename: __filename
 }, async (conn, mek, m, { args, reply }) => {
 
-  if (!args[0]) return reply("❌ Please provide song/video name or link\nUsage: .find <name or link>");
+  if (!args[0]) return reply("❌ Provide song/video name or link\nUsage: .find <name or link>");
 
   const query = args.join(" ");
 
@@ -24,7 +25,7 @@ cmd({
     } else {
       // Search by name
       const searchResult = await yts(query);
-      result = searchResult.videos[0]; // take first video
+      result = searchResult.videos[0]; // first video
     }
 
     if (!result) return reply("❌ No results found");
@@ -38,13 +39,17 @@ cmd({
     msg += `🎬 *Type:* ${type}\n`;
     msg += `🔗 *Link:* ${result.url}`;
 
-    // Get thumbnail buffer
+    // Send thumbnail first
     const thumb = await getBuffer(result.thumbnail);
-
     await conn.sendMessage(m.chat, { image: thumb, caption: msg });
+
+    // Download audio using ytdl-core
+    const audioStream = ytdl(result.url, { filter: 'audioonly', quality: 'highestaudio' });
+
+    await conn.sendMessage(m.chat, { audio: audioStream, mimetype: 'audio/mpeg', ptt: false });
 
   } catch (e) {
     console.log(e);
-    reply("❌ Error while searching. Try again later.");
+    reply("❌ Error while searching/downloading audio. Try again later.");
   }
 });
